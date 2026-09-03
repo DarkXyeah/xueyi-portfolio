@@ -1,19 +1,19 @@
 {
   "03-0": [
     {
-      "name": "男主.png",
+      "name": "男主.webp",
       "type": "image",
-      "src": "./media/ai-settings/03-0/%E7%94%B7%E4%B8%BB.png"
+      "src": "./media/ai-settings/03-0/%E7%94%B7%E4%B8%BB.webp"
     },
     {
-      "name": "女二.jpg",
+      "name": "女二.webp",
       "type": "image",
-      "src": "./media/ai-settings/03-0/%E5%A5%B3%E4%BA%8C.jpg"
+      "src": "./media/ai-settings/03-0/%E5%A5%B3%E4%BA%8C.webp"
     },
     {
-      "name": "女主.png",
+      "name": "女主.webp",
       "type": "image",
-      "src": "./media/ai-settings/03-0/%E5%A5%B3%E4%B8%BB.png"
+      "src": "./media/ai-settings/03-0/%E5%A5%B3%E4%B8%BB.webp"
     },
     {
       "name": "分镜脚本.docx",
@@ -28,31 +28,31 @@
       "src": "./media/ai-settings/03-1/%E5%9C%A8%E5%A4%A9%E7%95%8C%E5%BD%93%E7%A5%9E%E4%BB%99%E7%9A%84%E4%B8%80%E5%A4%A9.docx"
     },
     {
-      "name": "团团.png",
+      "name": "团团.webp",
       "type": "image",
-      "src": "./media/ai-settings/03-1/%E5%9B%A2%E5%9B%A2.png"
+      "src": "./media/ai-settings/03-1/%E5%9B%A2%E5%9B%A2.webp"
     },
     {
-      "name": "主角.png",
+      "name": "主角.webp",
       "type": "image",
-      "src": "./media/ai-settings/03-1/%E4%B8%BB%E8%A7%92.png"
+      "src": "./media/ai-settings/03-1/%E4%B8%BB%E8%A7%92.webp"
     }
   ],
   "03-2": [
     {
-      "name": "上层城市.jpg",
+      "name": "上层城市.webp",
       "type": "image",
-      "src": "./media/ai-settings/03-2/%E4%B8%8A%E5%B1%82%E5%9F%8E%E5%B8%82.jpg"
+      "src": "./media/ai-settings/03-2/%E4%B8%8A%E5%B1%82%E5%9F%8E%E5%B8%82.webp"
     },
     {
-      "name": "工业控制室.jpg",
+      "name": "工业控制室.webp",
       "type": "image",
-      "src": "./media/ai-settings/03-2/%E5%B7%A5%E4%B8%9A%E6%8E%A7%E5%88%B6%E5%AE%A4.jpg"
+      "src": "./media/ai-settings/03-2/%E5%B7%A5%E4%B8%9A%E6%8E%A7%E5%88%B6%E5%AE%A4.webp"
     },
     {
-      "name": "黄昏过渡层.jpg",
+      "name": "黄昏过渡层.webp",
       "type": "image",
-      "src": "./media/ai-settings/03-2/%E9%BB%84%E6%98%8F%E8%BF%87%E6%B8%A1%E5%B1%82.jpg"
+      "src": "./media/ai-settings/03-2/%E9%BB%84%E6%98%8F%E8%BF%87%E6%B8%A1%E5%B1%82.webp"
     },
     {
       "name": "脚本2.docx",

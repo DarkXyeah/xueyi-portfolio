@@ -50,7 +50,7 @@ export default function VideoBackdrop() {
           muted
           loop
           playsInline
-          preload="auto"
+          preload="metadata"
           disablePictureInPicture
           onError={() => setOk(false)}
         />
