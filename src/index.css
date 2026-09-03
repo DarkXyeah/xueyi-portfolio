@@ -1,0 +1,143 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html,
+  body,
+  #root {
+    background: #0c0c0c;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: 'Kanit', 'Inter Tight', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    color: #d7e2ea;
+  }
+
+  ::selection {
+    background: #ff4d1c;
+    color: #0c0c0c;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0c0c0c;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #26262b;
+    border-radius: 99px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #3a3a42;
+  }
+}
+
+@layer components {
+  /* 版心：PC 端最大 1700px */
+  .shell {
+    width: 100%;
+    max-width: 1700px;
+    margin-inline: auto;
+    padding-inline: clamp(20px, 4.2vw, 64px);
+  }
+
+  /* 参考站的核心语言：冷灰 -> 冷白 的渐变标题 */
+  .hero-heading {
+    background: linear-gradient(180deg, #646973 0%, #bbccd7 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  /* 中文段落统一走这套，避免 Kanit 缺字形时回退不一致 */
+  .font-ui {
+    font-family: 'Inter Tight', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  }
+
+  .label {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 11px;
+    line-height: 1;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(215, 226, 234, 0.45);
+  }
+
+  .label-ink {
+    color: rgba(12, 12, 12, 0.45);
+  }
+
+  .rule {
+    height: 1px;
+    background: rgba(215, 226, 234, 0.14);
+  }
+
+  .rule-ink {
+    height: 1px;
+    background: rgba(12, 12, 12, 0.15);
+  }
+
+  /* 悬浮细线链接：下划线由中间展开 */
+  .link-line {
+    position: relative;
+    display: inline-block;
+  }
+  .link-line::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    height: 1px;
+    width: 100%;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.45s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  .link-line:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .grain-layer {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .edge-fade {
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 6%,
+      #000 94%,
+      transparent
+    );
+    mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

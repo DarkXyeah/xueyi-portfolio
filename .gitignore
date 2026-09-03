@@ -1,0 +1,22 @@
+node_modules
+dist
+.tmp-raw
+.tmp-probe
+*.local
+.DS_Store
+
+# Vite cache
+.vite/
+
+# WorkBuddy project data (private, do not publish)
+.workbuddy/
+
+# Local screenshots / temp files
+screenshot-*.png
+
+# Dev backups: original 110MB+ source videos exceed GitHub's 100MB
+# single-file hard limit and are NOT needed for deployment.
+public/media/_originals/
+
+# High-quality hero backup — not required for deployment.
+public/media/hero-hq.mp4
