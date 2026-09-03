@@ -2,25 +2,25 @@
  * 全站内容与素材集中在这里，改文案 / 换图只需要动这一个文件
  * ------------------------------------------------------------------ */
 
-const w = (n: number) => `../media/wall-${String(n).padStart(2, '0')}.webp`
+const w = (n: number) => `./media/wall-${String(n).padStart(2, '0')}.webp`
 
 export const MEDIA = {
-  portrait: '../media/portrait.webp',
+  portrait: './media/portrait.webp',
   floaters: {
-    moon: '../media/float-moon.webp',
-    object: '../media/float-object.webp',
-    lego: '../media/float-lego.webp',
-    group: '../media/float-group.webp',
+    moon: './media/float-moon.webp',
+    object: './media/float-object.webp',
+    lego: './media/float-lego.webp',
+    group: './media/float-group.webp',
   },
 }
 
 /** AI 内容创作图片墙：9 张新图，上行 5 张、下行 4 张，三倍复制后无缝循环 */
 export const MARQUEE_ROWS = [
   {
-    tiles: Array.from({ length: 5 }, (_, i) => `../media/marquee-new-${String(i + 1).padStart(2, '0')}.webp`),
+    tiles: Array.from({ length: 5 }, (_, i) => `./media/marquee-new-${String(i + 1).padStart(2, '0')}.webp`),
   },
   {
-    tiles: Array.from({ length: 4 }, (_, i) => `../media/marquee-new-${String(i + 6).padStart(2, '0')}.webp`),
+    tiles: Array.from({ length: 4 }, (_, i) => `./media/marquee-new-${String(i + 6).padStart(2, '0')}.webp`),
   },
 ]
 
