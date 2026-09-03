@@ -22,3 +22,6 @@ public/media/_originals/
 
 # High-quality hero backup — not required for deployment.
 public/media/hero-hq.mp4
+
+# HSK CLI local state (auth cache, downloaded binaries)
+.hsk/
