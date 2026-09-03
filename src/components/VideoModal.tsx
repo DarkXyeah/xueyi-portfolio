@@ -24,6 +24,7 @@ export default function VideoModal({ video, onClose }: VideoModalProps) {
   const { updateVideoField } = useEdit()
   const videoRef = useRef<HTMLVideoElement>(null)
   const rightRef = useRef<HTMLDivElement>(null)
+  const innerRef = useRef<HTMLDivElement>(null)
   const [playing, setPlaying] = useState(false)
 
   const posterUrl = video
@@ -35,6 +36,12 @@ export default function VideoModal({ video, onClose }: VideoModalProps) {
   }, [video])
 
   useEffect(() => {
+    if (playing && videoRef.current) {
+      videoRef.current.play().catch(() => {})
+    }
+  }, [playing])
+
+  useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
     }
@@ -42,7 +49,7 @@ export default function VideoModal({ video, onClose }: VideoModalProps) {
     return () => window.removeEventListener('keydown', onKey)
   }, [onClose])
 
-  // 弹窗打开时锁定背景滚动 + 滚轮事件
+  // 弹窗打开时锁定背景滚动，但允许在弹窗内容区滚动（移动端整体可滚动）
   useEffect(() => {
     if (!video) return
     const originalOverflow = document.body.style.overflow
@@ -53,20 +60,15 @@ export default function VideoModal({ video, onClose }: VideoModalProps) {
     document.body.style.touchAction = 'none'
     document.documentElement.style.overflow = 'hidden'
 
+    const isBackdrop = (target: EventTarget | null) =>
+      innerRef.current && target instanceof Node && !innerRef.current.contains(target)
+
     const preventWheel = (e: WheelEvent) => {
-      const target = e.target as Node | null
-      // 如果滚轮发生在右侧可滚动区域内，且该区域确实可滚动，则放行
-      if (rightRef.current && rightRef.current.contains(target)) {
-        const el = rightRef.current
-        if (el.scrollHeight > el.clientHeight) return
-      }
-      e.preventDefault()
+      if (isBackdrop(e.target)) e.preventDefault()
     }
 
     const preventTouch = (e: TouchEvent) => {
-      const target = e.target as Node | null
-      if (rightRef.current && rightRef.current.contains(target)) return
-      e.preventDefault()
+      if (isBackdrop(e.target)) e.preventDefault()
     }
 
     window.addEventListener('wheel', preventWheel, { passive: false })
@@ -88,14 +90,15 @@ export default function VideoModal({ video, onClose }: VideoModalProps) {
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[100] flex h-screen w-screen items-center justify-center bg-ink/95 backdrop-blur-2xl"
+      className="fixed inset-0 z-[100] flex min-h-[100dvh] w-screen items-center justify-center overflow-y-auto bg-ink/95 p-3 backdrop-blur-2xl sm:p-4 md:p-6"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
       aria-label={`${video.title} 详情`}
     >
       <div
-        className="relative flex max-h-[calc(100vh-5rem)] w-full max-w-[1440px] flex-col overflow-hidden rounded-[24px] border border-mist/15 bg-ink shadow-2xl sm:rounded-[32px] md:max-h-[calc(100vh-6rem)] md:flex-row md:rounded-[40px]"
+        ref={innerRef}
+        className="relative flex max-h-[calc(100dvh-3.5rem)] w-full max-w-[1440px] flex-col overflow-y-auto rounded-[24px] border border-mist/15 bg-ink shadow-2xl sm:rounded-[32px] md:max-h-[calc(100dvh-5rem)] md:flex-row md:overflow-hidden md:rounded-[40px]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* 关闭按钮：始终可见，避开顶部导航 */}
@@ -109,7 +112,7 @@ export default function VideoModal({ video, onClose }: VideoModalProps) {
         </button>
 
         {/* 左侧：默认只展示 poster，点击后才加载视频（省流量） */}
-        <div className="relative flex min-h-0 w-full flex-[1.2] items-center justify-center bg-black/60 p-3 max-h-[55vh] sm:p-4 md:max-h-none md:flex-[1.4] md:p-5 lg:p-6">
+        <div className="relative flex min-h-0 w-full shrink-0 flex-[1.2] items-center justify-center bg-black/60 p-3 max-h-[50vh] sm:p-4 md:max-h-none md:flex-[1.4] md:p-5 lg:p-6">
           {playing ? (
             <video
               ref={videoRef}
@@ -118,33 +121,21 @@ export default function VideoModal({ video, onClose }: VideoModalProps) {
               playsInline
               autoPlay
               poster={posterUrl}
-              className="block max-h-full max-w-full rounded-2xl object-contain shadow-2xl"
-              style={{
-                height: 'auto',
-                width: 'auto',
-                maxHeight: 'min(calc(100vh - 12rem), 80vh)',
-                maxWidth: 'min(100%, 720px)',
-              }}
+              className="block max-h-[45vh] max-w-full rounded-2xl object-contain shadow-2xl md:max-h-full"
               aria-label={video.title}
             />
           ) : (
             <button
               type="button"
               onClick={() => setPlaying(true)}
-              className="group relative block max-h-full max-w-full overflow-hidden rounded-2xl shadow-2xl"
-              style={{
-                height: 'auto',
-                width: 'auto',
-                maxHeight: 'min(calc(100vh - 12rem), 80vh)',
-                maxWidth: 'min(100%, 720px)',
-              }}
+              className="group relative block max-h-[45vh] max-w-full overflow-hidden rounded-2xl shadow-2xl md:max-h-full"
               aria-label={`播放 ${video.title}`}
             >
               <img
                 src={posterUrl}
                 alt={video.title}
                 className="block max-h-full max-w-full object-contain"
-                loading="lazy"
+                loading="eager"
               />
               <div className="absolute inset-0 flex items-center justify-center bg-ink/30 transition-colors duration-300 group-hover:bg-ink/45">
                 <span className="grid h-16 w-16 place-items-center rounded-full border border-mist/30 bg-ink/60 text-mist backdrop-blur-md transition-transform duration-300 group-hover:scale-110 sm:h-20 sm:w-20">
@@ -158,7 +149,7 @@ export default function VideoModal({ video, onClose }: VideoModalProps) {
         {/* 右侧：作品介绍与设定集 */}
         <div
           ref={rightRef}
-          className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto overscroll-contain border-t border-mist/10 p-5 sm:p-6 md:w-[380px] md:flex-none md:border-t-0 md:border-l md:p-7 lg:w-[420px] lg:p-8"
+          className="flex min-h-0 flex-1 flex-col gap-5 overflow-visible overscroll-contain border-t border-mist/10 p-5 sm:p-6 md:w-[380px] md:flex-none md:overflow-y-auto md:border-t-0 md:border-l md:p-7 lg:w-[420px] lg:p-8"
         >
           <div>
             <span className="label">AI 内容创作</span>

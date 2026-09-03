@@ -48,7 +48,7 @@ export default function VideoLightbox({ src, title, showTitle = true, onClose }:
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[100] flex h-screen w-screen items-center justify-center bg-ink/95 p-4 backdrop-blur-2xl sm:p-8"
+      className="fixed inset-0 z-[100] flex min-h-[100dvh] w-screen items-center justify-center overflow-y-auto bg-ink/95 p-4 backdrop-blur-2xl sm:p-8"
       onClick={onClose}
     >
       <button
@@ -61,7 +61,7 @@ export default function VideoLightbox({ src, title, showTitle = true, onClose }:
       </button>
 
       <div
-        className="flex max-h-[calc(100vh-3rem)] w-full max-w-[min(1100px,95vw)] flex-col items-center gap-3"
+        className="flex max-h-[calc(100dvh-3rem)] w-full max-w-[min(1100px,95vw)] flex-col items-center gap-3"
         onClick={(e) => e.stopPropagation()}
       >
         {showTitle && (
@@ -74,7 +74,7 @@ export default function VideoLightbox({ src, title, showTitle = true, onClose }:
           src={src}
           controls
           playsInline
-          className="max-h-[calc(100vh-7rem)] w-auto max-w-full rounded-2xl bg-black object-contain shadow-2xl"
+          className="max-h-[calc(100dvh-7rem)] w-auto max-w-full rounded-2xl bg-black object-contain shadow-2xl"
         />
       </div>
     </div>,
