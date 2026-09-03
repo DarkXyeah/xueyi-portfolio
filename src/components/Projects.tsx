@@ -29,7 +29,7 @@ function VideoPlayer({
   const videoRef = useRef<HTMLVideoElement>(null)
   const [naturalAspect, setNaturalAspect] = useState(16 / 9)
   const posterUrl = video.src
-    .replace('/media/', '/media/posters/')
+    .replace('./media/', './media/posters/')
     .replace('.mp4', '-poster.webp')
 
   const resolvedAspect = aspect === undefined ? naturalAspect : aspect

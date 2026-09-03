@@ -2,25 +2,25 @@
  * 全站内容与素材集中在这里，改文案 / 换图只需要动这一个文件
  * ------------------------------------------------------------------ */
 
-const w = (n: number) => `/media/wall-${String(n).padStart(2, '0')}.webp`
+const w = (n: number) => `../media/wall-${String(n).padStart(2, '0')}.webp`
 
 export const MEDIA = {
-  portrait: '/media/portrait.webp',
+  portrait: '../media/portrait.webp',
   floaters: {
-    moon: '/media/float-moon.webp',
-    object: '/media/float-object.webp',
-    lego: '/media/float-lego.webp',
-    group: '/media/float-group.webp',
+    moon: '../media/float-moon.webp',
+    object: '../media/float-object.webp',
+    lego: '../media/float-lego.webp',
+    group: '../media/float-group.webp',
   },
 }
 
 /** AI 内容创作图片墙：9 张新图，上行 5 张、下行 4 张，三倍复制后无缝循环 */
 export const MARQUEE_ROWS = [
   {
-    tiles: Array.from({ length: 5 }, (_, i) => `/media/marquee-new-${String(i + 1).padStart(2, '0')}.webp`),
+    tiles: Array.from({ length: 5 }, (_, i) => `../media/marquee-new-${String(i + 1).padStart(2, '0')}.webp`),
   },
   {
-    tiles: Array.from({ length: 4 }, (_, i) => `/media/marquee-new-${String(i + 6).padStart(2, '0')}.webp`),
+    tiles: Array.from({ length: 4 }, (_, i) => `../media/marquee-new-${String(i + 6).padStart(2, '0')}.webp`),
   },
 ]
 
@@ -125,10 +125,10 @@ export const PROJECTS = [
     name: '信息流、混剪',
     href: '#',
     videos: [
-      { src: '/media/p1-3.mp4', title: '9月3日 成片 1', noDetail: true },
-      { src: '/media/p1-1.mp4', title: '9月3日 成片 2', noDetail: true },
-      { src: '/media/p1-5.mp4', title: '9月3日 成片 7', noDetail: true },
-      { src: '/media/p1-4.mp4', title: '9月3日 成片 9', noDetail: true },
+      { src: './media/p1-3.mp4', title: '9月3日 成片 1', noDetail: true },
+      { src: './media/p1-1.mp4', title: '9月3日 成片 2', noDetail: true },
+      { src: './media/p1-5.mp4', title: '9月3日 成片 7', noDetail: true },
+      { src: './media/p1-4.mp4', title: '9月3日 成片 9', noDetail: true },
     ],
   },
   {
@@ -136,9 +136,9 @@ export const PROJECTS = [
     name: '真人剧情、口播',
     href: '#',
     videos: [
-      { src: '/media/p2-4.mp4', title: '9月3日 成片 4', noDetail: true },
-      { src: '/media/p2-5.mp4', title: '9月3日 成片 5', noDetail: true },
-      { src: '/media/p2-6.mp4', title: '9月3日 成片 6', noDetail: true },
+      { src: './media/p2-4.mp4', title: '9月3日 成片 4', noDetail: true },
+      { src: './media/p2-5.mp4', title: '9月3日 成片 5', noDetail: true },
+      { src: './media/p2-6.mp4', title: '9月3日 成片 6', noDetail: true },
     ],
   },
   {
@@ -146,42 +146,42 @@ export const PROJECTS = [
     name: 'AI视频内容',
     videos: [
       {
-        src: '/media/ai-4.mp4',
+        src: './media/ai-4.mp4',
         title: '重生之我是恶女',
         intro: 'AI 生成短片实验，待补充作品介绍与创作思路。',
         prompt:
           'Cinematic AI-generated short film. Highly detailed, dramatic lighting, 4K, film grain.',
       },
       {
-        src: '/media/ai-5.mp4',
+        src: './media/ai-5.mp4',
         title: '在天界当神仙的一天',
         intro: 'AI 生成短片实验，待补充作品介绍与创作思路。',
         prompt:
           'Cinematic AI-generated short film. Highly detailed, dramatic lighting, 4K, film grain.',
       },
       {
-        src: '/media/ai-6.mp4',
+        src: './media/ai-6.mp4',
         title: '蒸汽朋克',
         intro: 'AI 生成短片实验，待补充作品介绍与创作思路。',
         prompt:
           'Cinematic AI-generated short film. Highly detailed, dramatic lighting, 4K, film grain.',
       },
       {
-        src: '/media/ai-1.mp4',
+        src: './media/ai-1.mp4',
         title: '去哪儿平台AI小短片',
         intro: 'AI 生成创意短片。',
         prompt:
           'Cinematic AI-generated short film. Highly detailed, dramatic lighting, 4K, film grain.',
       },
       {
-        src: '/media/ai-2.mp4',
+        src: './media/ai-2.mp4',
         title: '百度文库AI小短片',
         intro: 'AI 生成创意短片。',
         prompt:
           'Cinematic AI-generated short film. Highly detailed, dramatic lighting, 4K, film grain.',
       },
       {
-        src: '/media/ai-3.mp4',
+        src: './media/ai-3.mp4',
         title: '百度文库AI小短片',
         intro: 'AI 生成创意短片。',
         prompt:

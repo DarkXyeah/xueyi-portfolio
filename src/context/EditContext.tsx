@@ -55,10 +55,15 @@ function saveDraft(map: Partial<Record<string, DraftPatch>>) {
 }
 
 export function EditProvider({ children }: { children: React.ReactNode }) {
+  const isProd = import.meta.env.PROD
   const [editMode, setEditMode] = useState(false)
-  const [draftMap, setDraftMap] = useState<Partial<Record<string, DraftPatch>>>(loadDraft)
+  const [draftMap, setDraftMap] = useState<Partial<Record<string, DraftPatch>>>(
+    isProd ? {} : loadDraft
+  )
 
   const projects: ProjectDraft[] = useMemo(() => {
+    // 生产环境直接返回原始数据，不应用任何本地草稿
+    if (isProd) return PROJECTS as ProjectDraft[]
     return PROJECTS.map((p) => {
       const draft = draftMap[p.num]
       if (!draft) return p as ProjectDraft
@@ -74,11 +79,12 @@ export function EditProvider({ children }: { children: React.ReactNode }) {
             : undefined,
       } as ProjectDraft
     })
-  }, [draftMap])
+  }, [draftMap, isProd])
 
-  const hasChanges = useMemo(() => Object.keys(draftMap).length > 0, [draftMap])
+  const hasChanges = useMemo(() => !isProd && Object.keys(draftMap).length > 0, [draftMap, isProd])
 
   const updateProjectName = (num: string, name: string) => {
+    if (isProd) return
     setDraftMap((prev) => {
       const patch: DraftPatch = { ...(prev[num] ?? { num }), name }
       const next = { ...prev, [num]: patch }
@@ -93,6 +99,7 @@ export function EditProvider({ children }: { children: React.ReactNode }) {
     field: keyof VideoItem,
     value: string
   ) => {
+    if (isProd) return
     setDraftMap((prev) => {
       const patch = prev[num] ?? { num }
       const videos: VideoItem[] = patch.videos ? [...patch.videos] : []
@@ -108,7 +115,8 @@ export function EditProvider({ children }: { children: React.ReactNode }) {
   }
 
   useEffect(() => {
-    // 按 F8 切换编辑模式
+    // 生产环境完全禁用 F8 编辑快捷键
+    if (isProd) return
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'F8') {
         e.preventDefault()
@@ -117,13 +125,13 @@ export function EditProvider({ children }: { children: React.ReactNode }) {
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [])
+  }, [isProd])
 
   return (
     <EditContext.Provider
       value={{
-        editMode,
-        setEditMode,
+        editMode: isProd ? false : editMode,
+        setEditMode: isProd ? () => {} : setEditMode,
         projects,
         updateProjectName,
         updateVideoField,

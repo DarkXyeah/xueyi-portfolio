@@ -42,8 +42,8 @@ export default function VideoBackdrop() {
       {ok ? (
         <motion.video
           ref={videoRef}
-          src="/media/hero.mp4"
-          poster="/media/hero-poster.webp"
+          src="./media/hero.mp4"
+          poster="./media/hero-poster.webp"
           className="h-full w-full object-cover"
           style={parallax}
           autoPlay

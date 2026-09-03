@@ -2,7 +2,6 @@ import About from './components/About'
 import Capabilities from './components/Capabilities'
 import Contact from './components/Contact'
 import Cursor from './components/Cursor'
-import EditToolbar from './components/EditToolbar'
 import Grain from './components/Grain'
 import Hero from './components/Hero'
 import Marquee from './components/Marquee'
@@ -36,7 +35,6 @@ export default function App() {
           <Contact />
         </main>
 
-        <EditToolbar />
       </div>
     </EditProvider>
   )

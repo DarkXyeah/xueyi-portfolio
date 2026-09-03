@@ -4,7 +4,7 @@ import { useEdit } from '../context/EditContext'
 
 export type SettingItem = { name: string; type: 'image' | 'text' | 'doc'; src: string }
 
-const MANIFEST_URL = '/media/ai-settings/manifest.json'
+const MANIFEST_URL = './media/ai-settings/manifest.json'
 
 function inferType(file: File): SettingItem['type'] {
   const t = file.type
