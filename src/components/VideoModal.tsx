@@ -1,6 +1,6 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { X } from 'lucide-react'
+import { Play, X } from 'lucide-react'
 import { useEdit } from '../context/EditContext'
 import EditableText from './EditableText'
 import SettingPanel from './SettingPanel'
@@ -24,11 +24,14 @@ export default function VideoModal({ video, onClose }: VideoModalProps) {
   const { updateVideoField } = useEdit()
   const videoRef = useRef<HTMLVideoElement>(null)
   const rightRef = useRef<HTMLDivElement>(null)
+  const [playing, setPlaying] = useState(false)
+
+  const posterUrl = video
+    ? video.src.replace('./media/', './media/posters/').replace('.mp4', '-poster.webp')
+    : ''
 
   useEffect(() => {
-    if (video && videoRef.current) {
-      videoRef.current.play()
-    }
+    setPlaying(false)
   }, [video])
 
   useEffect(() => {
@@ -105,23 +108,51 @@ export default function VideoModal({ video, onClose }: VideoModalProps) {
           <X size={18} />
         </button>
 
-        {/* 左侧：视频播放器，按原始比例完整显示，不被任意放大 */}
+        {/* 左侧：默认只展示 poster，点击后才加载视频（省流量） */}
         <div className="relative flex min-h-0 w-full flex-[1.2] items-center justify-center bg-black/60 p-3 max-h-[55vh] sm:p-4 md:max-h-none md:flex-[1.4] md:p-5 lg:p-6">
-          <video
-            ref={videoRef}
-            src={video.src}
-            controls
-            playsInline
-            autoPlay
-            className="block max-h-full max-w-full rounded-2xl object-contain shadow-2xl"
-            style={{
-              height: 'auto',
-              width: 'auto',
-              maxHeight: 'min(calc(100vh - 12rem), 80vh)',
-              maxWidth: 'min(100%, 720px)',
-            }}
-            aria-label={video.title}
-          />
+          {playing ? (
+            <video
+              ref={videoRef}
+              src={video.src}
+              controls
+              playsInline
+              autoPlay
+              poster={posterUrl}
+              className="block max-h-full max-w-full rounded-2xl object-contain shadow-2xl"
+              style={{
+                height: 'auto',
+                width: 'auto',
+                maxHeight: 'min(calc(100vh - 12rem), 80vh)',
+                maxWidth: 'min(100%, 720px)',
+              }}
+              aria-label={video.title}
+            />
+          ) : (
+            <button
+              type="button"
+              onClick={() => setPlaying(true)}
+              className="group relative block max-h-full max-w-full overflow-hidden rounded-2xl shadow-2xl"
+              style={{
+                height: 'auto',
+                width: 'auto',
+                maxHeight: 'min(calc(100vh - 12rem), 80vh)',
+                maxWidth: 'min(100%, 720px)',
+              }}
+              aria-label={`播放 ${video.title}`}
+            >
+              <img
+                src={posterUrl}
+                alt={video.title}
+                className="block max-h-full max-w-full object-contain"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 flex items-center justify-center bg-ink/30 transition-colors duration-300 group-hover:bg-ink/45">
+                <span className="grid h-16 w-16 place-items-center rounded-full border border-mist/30 bg-ink/60 text-mist backdrop-blur-md transition-transform duration-300 group-hover:scale-110 sm:h-20 sm:w-20">
+                  <Play size={28} className="ml-1" fill="currentColor" />
+                </span>
+              </div>
+            </button>
+          )}
         </div>
 
         {/* 右侧：作品介绍与设定集 */}

@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Maximize2, Play } from 'lucide-react'
 import { useEdit } from '../context/EditContext'
 import EditableText from './EditableText'
@@ -26,13 +26,38 @@ function VideoPlayer({
   aspect?: number
   onOpen: (v: VideoItem) => void
 }) {
+  const containerRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
+  const [inView, setInView] = useState(false)
   const [naturalAspect, setNaturalAspect] = useState(16 / 9)
   const posterUrl = video.src
     .replace('./media/', './media/posters/')
     .replace('.mp4', '-poster.webp')
 
   const resolvedAspect = aspect === undefined ? naturalAspect : aspect
+
+  // 离屏视频不实例化 <video>，只显示 poster，滚动到附近再加载元数据
+  useEffect(() => {
+    const el = containerRef.current
+    if (!el) return
+    if (!('IntersectionObserver' in window)) {
+      setInView(true)
+      return
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setInView(true)
+            observer.unobserve(entry.target)
+          }
+        })
+      },
+      { rootMargin: '200px', threshold: 0 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
 
   const handlePlay = () => {
     const v = videoRef.current
@@ -45,6 +70,7 @@ function VideoPlayer({
 
   return (
     <div
+      ref={containerRef}
       className={`group relative isolate overflow-hidden rounded-[20px] border border-mist/20 bg-gradient-to-b from-white/[0.07] to-white/[0.02] p-1.5 shadow-[0_0_0_1px_rgba(255,77,28,0.08),0_16px_48px_-24px_rgba(0,0,0,0.7),inset_0_1px_0_0_rgba(255,255,255,0.04)] transition-all duration-300 hover:border-mist/35 hover:shadow-[0_0_0_1px_rgba(255,77,28,0.18),0_24px_60px_-20px_rgba(255,77,28,0.22),inset_0_1px_0_0_rgba(255,255,255,0.06)] sm:rounded-[24px] sm:p-2 md:rounded-[28px] md:p-2.5 ${className}`}
       style={aspect === undefined ? style : { aspectRatio: resolvedAspect, ...style }}
       data-cursor="play"
@@ -79,22 +105,31 @@ function VideoPlayer({
           }}
           aria-hidden="true"
         />
-        <video
-          ref={videoRef}
-          src={video.src}
-          poster={posterUrl}
-          preload="metadata"
-          muted
-          playsInline
-          className="relative z-10 h-full w-full object-contain"
-          aria-label={video.title}
-          onLoadedMetadata={(e) => {
-            const v = e.currentTarget
-            if (aspect === undefined && v.videoWidth && v.videoHeight) {
-              setNaturalAspect(v.videoWidth / v.videoHeight)
-            }
-          }}
-        />
+        {inView ? (
+          <video
+            ref={videoRef}
+            src={video.src}
+            poster={posterUrl}
+            preload="metadata"
+            muted
+            playsInline
+            className="relative z-10 h-full w-full object-contain"
+            aria-label={video.title}
+            onLoadedMetadata={(e) => {
+              const v = e.currentTarget
+              if (aspect === undefined && v.videoWidth && v.videoHeight) {
+                setNaturalAspect(v.videoWidth / v.videoHeight)
+              }
+            }}
+          />
+        ) : (
+          <img
+            src={posterUrl}
+            alt={video.title}
+            loading="lazy"
+            className="relative z-10 h-full w-full object-contain"
+          />
+        )}
 
         {/* 播放覆盖层 */}
         <button
