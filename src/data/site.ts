@@ -35,12 +35,12 @@ export const NAV_LINKS = [
 ]
 
 export const profile = {
-  name: 'XUEYI',
+  name: 'XUEYI-AI剪辑师',
   nameCn: '赖雪懿',
-  heroTitle: "Hi, i'm XUEYI",
+  heroTitle: "Hi, i'm XUEYI-AI剪辑师",
   heroLead:
     'Turning ideas into scroll-stopping videos / 把想法变成让人停下来的视频',
-  taglineCn: 'AI剪辑创意师',
+  taglineCn: 'AI剪辑师',
   location: '深圳龙岗',
   email: '1405566071@qq.com',
   phone: '+86 131 6922 7889',
